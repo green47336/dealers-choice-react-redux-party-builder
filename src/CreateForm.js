@@ -12,7 +12,7 @@ class CreateForm extends Component {
   render() {
     const { name } = this.state;
     return (
-      <div>
+      <div id="new-job">
         <h3>Create New Job</h3>
         <form>
           <input
