@@ -7,6 +7,7 @@ const CREATE_JOB = "CREATE_JOB";
 const SELECT_JOB = "SELECT_JOB";
 
 const jobs = (state = [], action) => {
+  //switch (action.type)
   if (action.type === "LOAD_JOBS") {
     return action.jobs;
   }
@@ -15,7 +16,6 @@ const jobs = (state = [], action) => {
   }
   if (action.type === "SELECT_JOB") {
     return state.map((job) => (job.id === action.job.id ? action.job : job));
-    //return action.jobs
   }
   return state;
 };
@@ -29,7 +29,7 @@ const store = createStore(
 
 export const fetchJobs = () => {
   return async (dispatch) => {
-    const jobs = (await axios.get("/api/jobs")).data;
+    const { data: jobs } = await axios.get("/api/jobs");
     dispatch({
       type: LOAD_JOBS,
       jobs,
@@ -40,18 +40,18 @@ export const fetchJobs = () => {
 export const updateJob = (job) => {
   return async (dispatch) => {
     console.log("updateJob called");
-    const selected = (
-      await axios.put(`/api/jobs/${job.id}`, { selected: !job.selected })
-    ).data;
+    const { data: selected } = await axios.put(`/api/jobs/${job.id}`, {
+      selected: !job.selected,
+    });
     dispatch({ type: SELECT_JOB, job: selected });
-    dispatch({ type: LOAD_JOBS });
   };
 };
 
-export const createJob = (passedJob) => {
+export const createJob = (newJob) => {
   return async (dispatch) => {
     console.log("createJob called");
-    const job = (await axios.post(`/api/jobs`, { passedJob })).data;
+    console.log(typeof newJob);
+    const { data: job } = await axios.post(`/api/jobs`, { name: newJob.name });
     dispatch({ type: CREATE_JOB, job });
   };
 };

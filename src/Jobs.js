@@ -25,7 +25,16 @@ const _Jobs = ({ jobs, select }) => {
         {jobs
           .filter((job) => job.selected)
           .map((currentJob) => {
-            return <li key={currentJob.id}>{currentJob.name}</li>;
+            return (
+              <li
+                key={currentJob.id}
+                onClick={() => {
+                  select(currentJob);
+                }}
+              >
+                {currentJob.name}
+              </li>
+            );
           })}
       </ul>
     </div>

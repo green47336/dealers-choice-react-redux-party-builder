@@ -8,7 +8,7 @@ import axios from "axios";
 
 class _App extends Component {
   componentDidMount() {
-    this.props.bootstrap();
+    this.props.fetchJobs();
   }
   render() {
     const { jobs } = this.props;
@@ -24,7 +24,7 @@ class _App extends Component {
             onClick={async () => {
               try {
                 await axios.post("/api/jobs", {
-                  name: `just work`,
+                  name: `DEBUG`,
                   selected: true,
                   str: 3,
                   agl: 4,
@@ -37,7 +37,7 @@ class _App extends Component {
               }
             }}
           >
-            hard coded attempt to debug
+            debug
           </button>
         </div>
       </div>
@@ -45,11 +45,12 @@ class _App extends Component {
   }
 }
 
+//Super lazy mapStateToProps and mapDispatchToProps is sneaky af
 const App = connect(
   (state) => state,
   (dispatch) => {
     return {
-      bootstrap: () => dispatch(fetchJobs()),
+      fetchJobs: () => dispatch(fetchJobs()),
     };
   }
 )(_App);

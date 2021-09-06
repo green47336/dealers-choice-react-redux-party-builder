@@ -24,8 +24,8 @@ class CreateForm extends Component {
           <button
             type="button"
             onClick={() => {
-              console.log(this.state);
-              this.props.createJob(this.state.name);
+              console.log(name);
+              this.props.createJob(this.state);
             }}
           >
             Add Job
@@ -46,7 +46,7 @@ class CreateForm extends Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    createJob: (name) => dispatch(createJob(name)),
+    createJob: (newJob) => dispatch(createJob(newJob)),
   };
 };
 
