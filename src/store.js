@@ -15,6 +15,7 @@ const jobs = (state = [], action) => {
   }
   if (action.type === "SELECT_JOB") {
     return state.map((job) => (job.id === action.job.id ? action.job : job));
+    //return action.jobs
   }
   return state;
 };
@@ -43,6 +44,7 @@ export const updateJob = (job) => {
       await axios.put(`/api/jobs/${job.id}`, { selected: !job.selected })
     ).data;
     dispatch({ type: SELECT_JOB, job: selected });
+    dispatch({ type: LOAD_JOBS });
   };
 };
 
