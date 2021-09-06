@@ -14,9 +14,7 @@ const jobs = (state = [], action) => {
     return [...state, action.job];
   }
   if (action.type === "SELECT_JOB") {
-    return state.map((job) =>
-      job.id === action.job.id ? action.grocery : job
-    );
+    return state.map((job) => (job.id === action.job.id ? action.job : job));
   }
   return state;
 };
