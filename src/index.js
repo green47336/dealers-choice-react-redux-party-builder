@@ -16,29 +16,9 @@ class _App extends Component {
       <div>
         <h1>Party Builder</h1>
         <div id="dingus">
+          <hr />
           <Jobs />
           <CreateForm />
-          <hr />
-          <button
-            type="button"
-            onClick={async () => {
-              try {
-                await axios.post("/api/jobs", {
-                  name: `DEBUG`,
-                  selected: true,
-                  str: 3,
-                  agl: 4,
-                  int: 9,
-                  sta: 2,
-                  lck: 5,
-                });
-              } catch (ex) {
-                console.log(ex);
-              }
-            }}
-          >
-            debug
-          </button>
         </div>
       </div>
     );

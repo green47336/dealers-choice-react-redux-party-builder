@@ -30,14 +30,6 @@ class CreateForm extends Component {
           >
             Add Job
           </button>
-          <button
-            type="button"
-            onClick={() => {
-              this.props.createJob({ name: "Dancer" });
-            }}
-          >
-            Dancer Button
-          </button>
         </form>
       </div>
     );

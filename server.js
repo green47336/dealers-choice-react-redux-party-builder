@@ -57,7 +57,12 @@ const conn = new Sequelize(
 );
 
 const Job = conn.define("job", {
-  name: { type: STRING, allowNull: false, validate: { notEmpty: true } },
+  name: {
+    type: STRING,
+    allowNull: false,
+    unique: true,
+    validate: { notEmpty: true },
+  },
   selected: { type: BOOLEAN, allowNull: false, defaultValue: false },
   str: { type: INTEGER },
   agl: { type: INTEGER },
