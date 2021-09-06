@@ -12,31 +12,34 @@ class CreateForm extends Component {
   render() {
     const { name } = this.state;
     return (
-      <form>
-        <input
-          value={name}
-          onChange={(ev) => {
-            this.setState({ name: ev.target.value });
-          }}
-        />
-        <button
-          type="button"
-          onClick={() => {
-            console.log(this.state);
-            this.props.createJob(this.state.name);
-          }}
-        >
-          Add Job
-        </button>
-        <button
-          type="button"
-          onClick={() => {
-            this.props.createJob({ name: "Dancer" });
-          }}
-        >
-          Dancer Button
-        </button>
-      </form>
+      <div>
+        <h3>Create New Job</h3>
+        <form>
+          <input
+            value={name}
+            onChange={(ev) => {
+              this.setState({ name: ev.target.value });
+            }}
+          />
+          <button
+            type="button"
+            onClick={() => {
+              console.log(this.state);
+              this.props.createJob(this.state.name);
+            }}
+          >
+            Add Job
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              this.props.createJob({ name: "Dancer" });
+            }}
+          >
+            Dancer Button
+          </button>
+        </form>
+      </div>
     );
   }
 }

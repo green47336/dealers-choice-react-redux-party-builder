@@ -1,5 +1,5 @@
 import React from "react";
-import { createJob, updateJob } from "./store";
+import { updateJob } from "./store";
 import { connect } from "react-redux";
 
 const _Jobs = ({ jobs, select }) => {
@@ -35,7 +35,6 @@ const _Jobs = ({ jobs, select }) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     select: (job) => dispatch(updateJob(job)),
-    createJob: () => dispatch(createJob()),
   };
 };
 

@@ -15,21 +15,31 @@ class _App extends Component {
     return (
       <div>
         <h1>Party Builder</h1>
-        <Jobs />
-        <CreateForm />
-        <button
-          type="button"
-          onClick={async () => {
-            try {
-              const newJob = { name: `just work` };
-              await axios.post(`/api/jobs`, newJob);
-            } catch (ex) {
-              console.log(ex);
-            }
-          }}
-        >
-          lol
-        </button>
+        <div id="dingus">
+          <Jobs />
+          <CreateForm />
+          <hr />
+          <button
+            type="button"
+            onClick={async () => {
+              try {
+                await axios.post("/api/jobs", {
+                  name: `just work`,
+                  selected: true,
+                  str: 3,
+                  agl: 4,
+                  int: 9,
+                  sta: 2,
+                  lck: 5,
+                });
+              } catch (ex) {
+                console.log(ex);
+              }
+            }}
+          >
+            hard coded attempt to debug
+          </button>
+        </div>
       </div>
     );
   }

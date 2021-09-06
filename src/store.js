@@ -38,6 +38,7 @@ export const fetchJobs = () => {
 
 export const updateJob = (job) => {
   return async (dispatch) => {
+    console.log("updateJob called");
     const selected = (
       await axios.put(`/api/jobs/${job.id}`, { selected: !job.selected })
     ).data;
@@ -45,10 +46,10 @@ export const updateJob = (job) => {
   };
 };
 
-export const createJob = (name) => {
+export const createJob = (passedJob) => {
   return async (dispatch) => {
     console.log("createJob called");
-    const job = (await axios.post(`/api/jobs`)).data;
+    const job = (await axios.post(`/api/jobs`, { passedJob })).data;
     dispatch({ type: CREATE_JOB, job });
   };
 };

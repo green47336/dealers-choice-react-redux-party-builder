@@ -5,6 +5,7 @@ const path = require("path");
 const app = express();
 
 app.use("/dist", static(path.join(__dirname, "dist")));
+app.use(express.urlencoded({ extended: false }));
 
 app.get("/", (req, res, next) =>
   res.sendFile(path.join(__dirname, "index.html"))
@@ -20,7 +21,8 @@ app.get("/api/jobs", async (req, res, next) => {
 
 app.post("/api/jobs", async (req, res, next) => {
   try {
-    res.send(await Job.create(req.body));
+    console.log(`this is the req.body.name:${req.body.name}`);
+    res.send(await Job.create({ name: req.body.name }));
   } catch (ex) {
     next(ex);
   }
