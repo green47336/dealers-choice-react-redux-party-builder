@@ -1,19 +1,35 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
 import { connect, Provider } from "react-redux";
-import store, { fetchClasses } from "./store";
-import Classes from "./Classes";
+import store, { fetchJobs } from "./store";
+import Jobs from "./Jobs";
+import CreateForm from "./CreateForm";
+import axios from "axios";
 
 class _App extends Component {
   componentDidMount() {
     this.props.bootstrap();
   }
   render() {
-    const { classes } = this.props;
+    const { jobs } = this.props;
     return (
       <div>
         <h1>Party Builder</h1>
-        <Classes />
+        <Jobs />
+        <CreateForm />
+        <button
+          type="button"
+          onClick={async () => {
+            try {
+              const newJob = { name: `just work` };
+              await axios.post(`/api/jobs`, newJob);
+            } catch (ex) {
+              console.log(ex);
+            }
+          }}
+        >
+          lol
+        </button>
       </div>
     );
   }
@@ -23,7 +39,7 @@ const App = connect(
   (state) => state,
   (dispatch) => {
     return {
-      bootstrap: () => dispatch(fetchClasses()),
+      bootstrap: () => dispatch(fetchJobs()),
     };
   }
 )(_App);

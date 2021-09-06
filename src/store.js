@@ -2,29 +2,56 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import logger from "redux-logger";
 import thunk from "redux-thunk";
 import axios from "axios";
-const LOAD_CLASSES = "LOAD_CLASSES";
+const LOAD_JOBS = "LOAD_JOBS";
+const CREATE_JOB = "CREATE_JOB";
+const SELECT_JOB = "SELECT_JOB";
 
-const classes = (state = [], action) => {
-  if (action.type === LOAD_CLASSES) {
-    return action.classes;
+const jobs = (state = [], action) => {
+  if (action.type === "LOAD_JOBS") {
+    return action.jobs;
+  }
+  if (action.type === "CREATE_JOB") {
+    return [...state, action.job];
+  }
+  if (action.type === "SELECT_JOB") {
+    return state.map((job) =>
+      job.id === action.job.id ? action.grocery : job
+    );
   }
   return state;
 };
 
 const store = createStore(
   combineReducers({
-    classes,
+    jobs,
   }),
-  applyMiddleware(logger, thunk)
+  applyMiddleware(thunk, logger)
 );
 
-export const fetchClasses = () => {
+export const fetchJobs = () => {
   return async (dispatch) => {
-    const classes = (await axios.get("/api/classes")).data;
+    const jobs = (await axios.get("/api/jobs")).data;
     dispatch({
-      type: LOAD_CLASSES,
-      classes,
+      type: LOAD_JOBS,
+      jobs,
     });
+  };
+};
+
+export const updateJob = (job) => {
+  return async (dispatch) => {
+    const selected = (
+      await axios.put(`/api/jobs/${job.id}`, { selected: !job.selected })
+    ).data;
+    dispatch({ type: SELECT_JOB, job: selected });
+  };
+};
+
+export const createJob = (name) => {
+  return async (dispatch) => {
+    console.log("createJob called");
+    const job = (await axios.post(`/api/jobs`)).data;
+    dispatch({ type: CREATE_JOB, job });
   };
 };
 

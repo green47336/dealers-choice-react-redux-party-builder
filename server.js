@@ -10,9 +10,27 @@ app.get("/", (req, res, next) =>
   res.sendFile(path.join(__dirname, "index.html"))
 );
 
-app.get("/api/classes", async (req, res, next) => {
+app.get("/api/jobs", async (req, res, next) => {
   try {
-    res.send(await Class.findAll());
+    res.send(await Job.findAll());
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+app.post("/api/jobs", async (req, res, next) => {
+  try {
+    res.send(await Job.create(req.body));
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+app.put("/api/jobs/:id", async (req, res, next) => {
+  try {
+    const job = await Job.findByPk(req.params.id);
+    await job.update(req.body);
+    res.send(job);
   } catch (ex) {
     next(ex);
   }
@@ -29,36 +47,38 @@ const init = async () => {
 };
 
 const Sequelize = require("sequelize");
-const { STRING, INTEGER } = Sequelize;
+const { STRING, INTEGER, BOOLEAN } = Sequelize;
 const conn = new Sequelize(
   process.env.DATABASE_URL || "postgres://localhost/party_builder_db"
 );
 
-const Class = conn.define("class", {
-  name: STRING,
-  str: INTEGER,
-  agl: INTEGER,
-  int: INTEGER,
-  sta: INTEGER,
-  lck: INTEGER,
+const Job = conn.define("job", {
+  name: { type: STRING, allowNull: false, validate: { notEmpty: true } },
+  selected: { type: BOOLEAN, allowNull: false, defaultValue: false },
+  str: { type: INTEGER },
+  agl: { type: INTEGER },
+  int: { type: INTEGER },
+  sta: { type: INTEGER },
+  lck: { type: INTEGER },
 });
 const syncAndSeed = async () => {
   await conn.sync({ force: true });
   await Promise.all([
-    Class.create({ name: "Warrior", str: 10, agl: 5, int: 3, sta: 7, lck: 5 }),
-    Class.create({ name: "Thief", str: 5, agl: 9, int: 5, sta: 4, lck: 8 }),
-    Class.create({ name: "Monk", str: 7, agl: 7, int: 4, sta: 10, lck: 5 }),
-    Class.create({ name: "Red Mage", str: 6, agl: 6, int: 7, sta: 5, lck: 6 }),
+    Job.create({ name: "Warrior", str: 10, agl: 5, int: 3, sta: 7, lck: 5 }),
+    Job.create({ name: "Thief", str: 5, agl: 9, int: 5, sta: 4, lck: 8 }),
+    Job.create({ name: "Monk", str: 7, agl: 7, int: 4, sta: 10, lck: 5 }),
+    Job.create({ name: "Red Mage", str: 6, agl: 6, int: 7, sta: 5, lck: 6 }),
     //Okay, Prettier.
-    Class.create({
+    Job.create({
       name: "White Mage",
+      selected: true,
       str: 3,
       agl: 4,
       int: 9,
       sta: 2,
       lck: 5,
     }),
-    Class.create({
+    Job.create({
       name: "Black Mage",
       str: 3,
       agl: 3,
